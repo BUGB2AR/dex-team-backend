@@ -44,7 +44,7 @@ class TimeControllerTest extends BaseControllerTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("$", hasSize(1))
-                .body("[0].data", equalTo("2023-01-01"));
+                .body("[0].data", contains(2023, 1, 1));
     }
 
     @Test
@@ -63,7 +63,7 @@ class TimeControllerTest extends BaseControllerTest {
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .body("id", notNullValue())
-                .body("data", equalTo("2023-01-15"));
+                .body("data", hasItems(2023, 1, 15));
     }
 
     @Test
@@ -79,7 +79,7 @@ class TimeControllerTest extends BaseControllerTest {
                 .then()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", equalTo(time.getId().intValue()))
-                .body("data", equalTo("2023-02-01"));
+                .body("data", hasItems(2023, 2, 1));
     }
 
     @Test

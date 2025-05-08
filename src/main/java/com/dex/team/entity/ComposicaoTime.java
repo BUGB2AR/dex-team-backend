@@ -24,7 +24,7 @@ public class ComposicaoTime {
     @JsonBackReference
     private Time time;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_integrante", nullable = false)
     private Integrante integrante;
 
