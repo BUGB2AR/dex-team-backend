@@ -1,6 +1,6 @@
 Instruções Para rodar o projeto
 
-Utilizando a ide Spring tool suit importe o projeto para sua workspace, certifique-se que você tem instalado o mysql server na maquina local para poder rodar o projeto corretamente
+Utilizando a ide Spring tool suite importe o projeto para sua workspace, certifique-se que você tem instalado o mysql server na maquina local para poder rodar o projeto corretamente.
 
 1. Passo:
 
