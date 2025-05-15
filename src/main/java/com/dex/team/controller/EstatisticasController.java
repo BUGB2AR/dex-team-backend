@@ -3,6 +3,7 @@ package com.dex.team.controller;
 import com.dex.team.dto.ContagemPorFranquiaDTO;
 import com.dex.team.dto.FuncaoMaisComumDTO;
 import com.dex.team.dto.TimeDaDataDTO;
+import com.dex.team.dto.TimeMaisComumDTO;
 import com.dex.team.entity.Integrante;
 import com.dex.team.entity.Time;
 import com.dex.team.mapper.Mapper;
@@ -33,7 +34,7 @@ public class EstatisticasController {
 
     @GetMapping("/time-da-data")
     public TimeDaDataDTO timeDaData(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
-        Time time = apiService.timeDaData(data);
+        List<Time> time = apiService.timeDaData(data);
         if (time == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Time não encontrado para a data " + data);
         }
@@ -52,7 +53,22 @@ public class EstatisticasController {
     public List<String> integrantesDoTimeMaisComum(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        return apiService.integrantesDoTimeMaisComum(dataInicial, dataFinal);
+        List<String> integrantes = apiService.integrantesDoTimeMaisComum(dataInicial, dataFinal);
+        return integrantes;
+    }
+    
+    @GetMapping("/time-mais-comum-detalhado")
+    public TimeMaisComumDTO timeMaisComumDetalhado(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+        
+        TimeMaisComumDTO dto = apiService.timeMaisComumDetalhado(dataInicial, dataFinal);
+        
+        if (dto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum time mais comum encontrado no período.");
+        }
+        
+        return dto;
     }
 
     @GetMapping("/funcao-mais-comum")

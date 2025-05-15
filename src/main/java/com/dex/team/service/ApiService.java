@@ -1,5 +1,6 @@
 package com.dex.team.service;
 
+import com.dex.team.dto.TimeMaisComumDTO;
 import com.dex.team.entity.ComposicaoTime;
 import com.dex.team.entity.Integrante;
 import com.dex.team.entity.Time;
@@ -23,7 +24,7 @@ public class ApiService {
      * @param data Data do time a ser buscado
      * @return Time da data especificada ou null se não existir
      */
-    public Time timeDaData(LocalDate data) {
+    public List<Time> timeDaData(LocalDate data) {
         return timeRepository.findByData(data);
     }
 
@@ -54,30 +55,45 @@ public class ApiService {
      * @return Lista de nomes dos integrantes do time mais comum
      */
     public List<String> integrantesDoTimeMaisComum(LocalDate dataInicial, LocalDate dataFinal) {
+        return timeMaisComumCompleto(dataInicial, dataFinal)
+                .map(time -> time.getComposicao().stream()
+                        .map(ct -> ct.getIntegrante().getNome())
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+    }
+
+    public Optional<Time> timeMaisComumCompleto(LocalDate dataInicial, LocalDate dataFinal) {
         List<Time> times = timeRepository.findByPeriodo(dataInicial, dataFinal);
 
         // Agrupa times por seus integrantes (considerando a combinação de integrantes como chave)
         Map<String, List<Time>> timesPorCombinacao = times.stream()
                 .collect(Collectors.groupingBy(time -> {
-                    List<String> integrantes = time.getComposicao().stream()
-                            .map(ct -> ct.getIntegrante().getId().toString())
-                            .sorted()
-                            .collect(Collectors.toList());
-                    return String.join(",", integrantes);
+                    Set<Long> integrantesIds = time.getComposicao().stream()
+                            .map(ct -> ct.getIntegrante().getId())
+                            .collect(Collectors.toCollection(TreeSet::new)); // ordenado
+                    return integrantesIds.stream()
+                            .map(Object::toString)
+                            .collect(Collectors.joining(","));
                 }));
 
-        // Encontra a combinação mais comum
-        Optional<Map.Entry<String, List<Time>>> combinacaoMaisComum = timesPorCombinacao.entrySet().stream()
-                .max(Comparator.comparingInt(e -> e.getValue().size()));
+        return timesPorCombinacao.entrySet().stream()
+                .max(Comparator.comparingInt(e -> e.getValue().size()))
+                .map(entry -> entry.getValue().get(0));
+    }
 
-        if (combinacaoMaisComum.isPresent()) {
-            Time primeiroTimeComEssaCombinacao = combinacaoMaisComum.get().getValue().get(0);
-            return primeiroTimeComEssaCombinacao.getComposicao().stream()
-                    .map(ct -> ct.getIntegrante().getNome())
-                    .collect(Collectors.toList());
-        }
-
-        return Collections.emptyList();
+    public TimeMaisComumDTO timeMaisComumDetalhado(LocalDate dataInicial, LocalDate dataFinal) {
+        return timeMaisComumCompleto(dataInicial, dataFinal)
+                .map(time -> {
+                    TimeMaisComumDTO dto = new TimeMaisComumDTO();
+                    dto.setTimeId(time.getId());
+                    dto.setIntegrantes(
+                            time.getComposicao().stream()
+                                    .map(ct -> ct.getIntegrante().getNome())
+                                    .collect(Collectors.toList())
+                    );
+                    return dto;
+                })
+                .orElse(null);
     }
 
     /**
@@ -135,7 +151,6 @@ public class ApiService {
                 .distinct()
                 .count();
     }
-
 
     /**
      * Retorna a contagem de funções distintas no período

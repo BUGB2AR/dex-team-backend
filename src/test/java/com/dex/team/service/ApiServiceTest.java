@@ -36,9 +36,11 @@ class ApiServiceTest {
         Time time = new Time();
         time.setData(data);
 
-        when(timeRepository.findByData(data)).thenReturn(time);
+        List<Time> times = Arrays.asList(time);
 
-        Time result = apiService.timeDaData(data);
+        when(timeRepository.findByData(data)).thenReturn(times);
+
+        List<Time> result = apiService.timeDaData(data);
         assertEquals(time, result);
         verify(timeRepository, times(1)).findByData(data);
     }

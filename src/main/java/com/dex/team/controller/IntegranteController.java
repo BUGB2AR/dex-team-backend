@@ -33,7 +33,7 @@ public class IntegranteController {
 
     @GetMapping("/api/time-da-data")
     public TimeDaDataDTO getTimeDaData(@RequestParam String data) {
-        Time time = timeRepository.findByData(LocalDate.parse(data));
+        List<Time> time = timeRepository.findByData(LocalDate.parse(data));
         return mapper.toTimeDaDataDTO(time);
     }
 

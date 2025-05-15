@@ -27,12 +27,18 @@ public class Mapper {
         return modelMapper.map(time, TimeDTO.class);
     }
 
-    public TimeDaDataDTO toTimeDaDataDTO(Time time) {
+    public TimeDaDataDTO toTimeDaDataDTO(List<Time> times) {
         TimeDaDataDTO dto = new TimeDaDataDTO();
-        dto.setData(time.getData());
-        dto.setIntegrantes(time.getComposicao().stream()
-                               .map(c -> c.getIntegrante().getNome())
-                               .toList());
+
+        if (!times.isEmpty()) {
+            dto.setData(times.get(0).getData());
+        }
+
+        List<String> integrantes = times.stream()
+                               .flatMap(time -> time.getComposicao().stream()
+                               .map(c -> c.getIntegrante().getNome()))
+                               .toList();
+        dto.setIntegrantes(integrantes);
         return dto;
     }
 

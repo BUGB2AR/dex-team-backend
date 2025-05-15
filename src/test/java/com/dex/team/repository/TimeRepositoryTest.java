@@ -34,16 +34,25 @@ public class TimeRepositoryTest {
     }
 
     @Test
-    public void whenFindByData_thenReturnTime() {
+    public void whenFindByData_thenReturnTimes() {
         LocalDate data = LocalDate.of(2023, 1, 15);
-        Time time = new Time();
-        time.setData(data);
-        entityManager.persistAndFlush(time);
 
-        Time found = timeRepository.findByData(data);
+        Time time1 = new Time();
+        time1.setData(data);
+        entityManager.persist(time1);
+
+        Time time2 = new Time();
+        time2.setData(data);
+        entityManager.persist(time2);
+
+        entityManager.flush();
+
+        List<Time> found = timeRepository.findByData(data);
 
         assertThat(found).isNotNull();
-        assertThat(found.getData()).isEqualTo(data);
+        assertThat(found).hasSize(2);
+        assertThat(found.get(0).getData()).isEqualTo(data);
+        assertThat(found.get(1).getData()).isEqualTo(data);
     }
 
     @Test
