@@ -1,24 +1,95 @@
-Instruções Para rodar o projeto
+# 🏆 Desafio de Desenvolvimento - Sistema de Escalação de Times
 
-Utilizando a ide Spring tool suite importe o projeto para sua workspace, certifique-se que você tem instalado o mysql server na maquina local para poder rodar o projeto corretamente.
+## 📌 Sobre o Projeto
 
-1. Passo:
+Este projeto tem como objetivo fornecer uma API para gerenciar a escalação de times de esportes tradicionais e eSports. Através de um backend construído com **Spring Boot**, é possível cadastrar integrantes, montar times semanais e gerar estatísticas com base na composição dos times ao longo do tempo.
 
-- Baixar e instalar o mysql localmente no seguinte site => https://dev.mysql.com/downloads/installer/
 
-2. Passo:
-- Ide Utilizado foi Eclipse com java 17 basta ter a versão em sua maquina ou usando o Spring Tool Suit já podemos usar diretamente apenas importando o projeto para a workspace normalmente.
+## ✅ Funcionalidades Implementadas
 
-3. Passo
-- Ao inicializar com o maven usando o comando mvn spring-boot:run, com o devido comando já é possivel rodar o projeto, o mesmo possui bootstrap para criar a tabela com auto ddl update então ao inicializar já irá criar as tabelas necessárias
-- obs: utilize o clean install antes de executar o mvn, de via de regra é interessante usar dessa forma podemos fazer um clean e um install seguro dessa forma também irá rodar as suits de testes da nossa aplicação em spring boot.
+Todas as funcionalidades descritas no desafio foram completamente implementadas:
 
-4 Passo
-- Um extra podemos também rodar o projeto apenas clicando no botão direito do mouse em cima do projeto na workspace do eclipse e indo até covarege podemos executar o covarege de testes do backend
-- Segundo extra podemos executar também diretamente via dev tools ferramenta ao qual facilita a execução do projeto em spring boot.
+### 1. Tratamento de Dados
 
-Obs: configure o seguinte usuário mysql ao instalar workbanch + server
+Foram implementados os métodos no `ApiService` conforme solicitado, sem uso de `count`, procedures ou funções SQL para processamento. Todo o tratamento de dados é feito em Java.
 
-usuario: root
-password: root
-porta: 3306 (padrão)
+- `timeDaData(data)`
+- `integranteMaisUsado(dataInicial, dataFinal)`
+- `integrantesDoTimeMaisComum(dataInicial, dataFinal)`
+- `funcaoMaisComum(dataInicial, dataFinal)`
+- `franquiaMaisFamosa(dataInicial, dataFinal)`
+- `contagemPorFranquia(dataInicial, dataFinal)`
+- `contagemPorFuncao(dataInicial, dataFinal)`
+
+### 2. API de Cadastro
+
+Endpoints criados para cadastrar e gerenciar entidades:
+
+- Cadastro de **Integrantes e listagem**
+- Cadastro de **Times e listagem**
+- Associação de integrantes a times (Composição do Time)
+
+## 🛠️ Tecnologias Utilizadas
+
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- MySQL
+- Maven
+- JUnit
+- Eclipse / Spring Tool Suite (STS)
+
+---
+
+## 🚀 Instruções Para Rodar o Projeto
+
+### ✅ Pré-requisitos
+
+- Java 17 instalado
+- Maven instalado
+- MySQL Server e Workbench instalados localmente
+- IDE: Eclipse ou Spring Tool Suite (STS)
+
+### 1️⃣ Instalação do MySQL
+
+Faça o download e instalação do MySQL localmente:
+
+🔗 [Download MySQL Installer](https://dev.mysql.com/downloads/installer/)
+
+**Configurações recomendadas:**
+
+- Usuário: `root`
+- Senha: `root`
+- Porta: `3306` (padrão)
+
+### 2️⃣ Importar o Projeto
+
+Abra o **Eclipse** ou **Spring Tool Suite**:
+
+- Vá em `File > Import > Existing Maven Projects`
+- Selecione o diretório do projeto e importe para a workspace
+
+### 3️⃣ Executar o Projeto
+
+#### Via Maven CLI:
+
+- mvn clean install
+- mvn spring-boot:run
+
+
+### 🧪 Testes
+
+Todos os métodos de serviço foram cobertos com testes unitários, garantindo a confiabilidade e estabilidade das funcionalidades implementadas.
+
+
+### 🛠️ Outras Considerações
+
+- O código está devidamente comentado, especialmente em trechos mais complexos.
+- Foram realizados commits frequentes para registrar toda a evolução da solução.
+
+
+
+
+
+
+
