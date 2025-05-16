@@ -79,7 +79,11 @@ Abra o **Eclipse** ou **Spring Tool Suite**:
 
 ### 🧪 Testes
 
-Todos os métodos de serviço foram cobertos com testes unitários, garantindo a confiabilidade e estabilidade das funcionalidades implementadas.
+Foi realizado cobertura de testes para a aplicação backend bem como listados aqui abaixo o que foi coberto no teste.
+
+- ✅ **Testes de Integração**: Validação da interação entre camadas (Controller, Service, Repository e Banco de Dados).
+- ✅ **Testes Funcionais**: Verificam o comportamento da aplicação como um todo, simulando requisições e garantindo as respostas esperadas.
+- ✅ Cobertura relacionada aos fluxos de negócio da aplicação backend.
 
 
 ### 🛠️ Outras Considerações
