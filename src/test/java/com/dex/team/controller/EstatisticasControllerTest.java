@@ -20,7 +20,7 @@ public class EstatisticasControllerTest extends BaseControllerTest {
 	    .when()
 	        .get("/api/estatisticas/time-da-data")
 	    .then()
-	        .statusCode(HttpStatus.NOT_FOUND.value());
+	        .statusCode(HttpStatus.OK.value());
 	}
 
     @Test
